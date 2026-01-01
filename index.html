@@ -1,1067 +1,342 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>خدمات پرینت سه بعدی صنعتی</title>
+    <!-- لینک فونت -->
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;500;700;900&display=swap" rel="stylesheet">
-
-    <style>
-        /* --- تنظیمات اولیه و متغیرها --- */
-        :root {
-            --bg-dark: #0f1012; /* رنگ پس زمینه اصلی */
-            --bg-panel: #1a1c20; /* رنگ پنل‌ها */
-            --accent-orange: #ff6b00; /* نارنجی صنعتی */
-            --accent-blue: #00d2ff; /* آبی نئونی */
-            --text-main: #ffffff;
-            --text-muted: #a0a0a5;
-            --grid-color: rgba(255, 255, 255, 0.03);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            outline: none;
-        }
-
-        body {
-            font-family: 'Vazirmatn', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* --- پس‌زمینه مشبک مهندسی (Blueprint Effect) --- */
-        .grid-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                    linear-gradient(var(--grid-color) 1px, transparent 1px),
-                    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-            background-size: 40px 40px; /* سایز خانه‌های شطرنجی */
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* افکت سایه روشن روی پس زمینه */
-        .grid-bg::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, transparent 0%, var(--bg-dark) 90%);
-        }
-
-        /* --- هدر (Header) --- */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-            background: rgba(15, 16, 18, 0.8); /* شیشه‌ای */
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .logo {
-            font-weight: 900;
-            font-size: 1.5rem;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo span { color: var(--accent-orange); }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: 500;
-            transition: 0.3s;
-            font-size: 0.95rem;
-        }
-
-        nav a:hover { color: var(--accent-blue); }
-
-        .btn-header {
-            padding: 8px 20px;
-            border: 1px solid var(--accent-blue);
-            color: var(--accent-blue);
-            background: transparent;
-            border-radius: 4px; /* گوشه‌های کمی گرد اما صنعتی */
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: inherit;
-        }
-
-        .btn-header:hover {
-            background: var(--accent-blue);
-            color: #000;
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
-        }
-
-        /* --- هیرو سکشن (Hero Section) --- */
-        .hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 90vh; /* ارتفاع تقریبا کامل صفحه */
-            padding: 0 10%;
-            position: relative;
-            padding-top: 80px; /* فاصله از هدر */
-        }
-
-        .hero-text {
-            flex: 1;
-            max-width: 600px;
-            z-index: 2;
-        }
-
-        .label {
-            color: var(--accent-orange);
-            font-weight: 700;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            display: inline-block;
-            border-bottom: 2px solid var(--accent-orange);
-            padding-bottom: 5px;
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            background: linear-gradient(to right, #fff, #aaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        p.sub-hero {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 40px;
-            max-width: 90%;
-        }
-
-        .cta-group {
-            display: flex;
-            gap: 20px;
-        }
-
-        .btn-primary {
-            padding: 15px 35px;
-            background: var(--accent-orange);
-            color: #fff;
-            border: none;
-            font-weight: 700;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 1rem;
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
-            font-family: Vazirmatn;
-        }
-
-        .btn-primary:hover {
-            background: #e65c00;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 107, 0, 0.2);
-        }
-
-        .btn-secondary {
-            font-family: Vazirmatn;
-            padding: 15px 35px;
-            background: transparent;
-            color: var(--text-main);
-            border: 1px solid rgba(255,255,255,0.2);
-            font-weight: 500;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 1rem;
-            transition: 0.3s;
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--text-main);
-            background: rgba(255,255,255,0.05);
-        }
-
-        /* --- المان گرافیکی سه بعدی (CSS 3D Cube) --- */
-        .hero-visual {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1000px; /* پرسپکتیو سه بعدی */
-            height: 400px;
-        }
-
-        .cube-container {
-            width: 200px;
-            height: 200px;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: rotateCube 15s infinite linear;
-        }
-
-        .face {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            border: 2px solid var(--accent-blue);
-            background: rgba(0, 210, 255, 0.05);
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.1);
-        }
-
-        /* ساخت مکعب */
-        .front  { transform: rotateY(0deg) translateZ(100px); }
-        .back   { transform: rotateY(180deg) translateZ(100px); }
-        .right  { transform: rotateY(90deg) translateZ(100px); }
-        .left   { transform: rotateY(-90deg) translateZ(100px); }
-        .top    { transform: rotateX(90deg) translateZ(100px); }
-        .bottom { transform: rotateX(-90deg) translateZ(100px); }
-
-        /* انیمیشن چرخش */
-        @keyframes rotateCube {
-            from { transform: rotateX(-20deg) rotateY(0deg); }
-            to { transform: rotateX(-20deg) rotateY(360deg); }
-        }
-
-        /* --- نوار اعتماد (Trust Bar) --- */
-        .trust-bar {
-            background: var(--bg-panel);
-            padding: 30px 10%;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .trust-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 10px;
-            border-right: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .trust-item:last-child { border-right: none; }
-
-        .icon-box {
-            font-size: 1.5rem;
-            color: var(--accent-orange);
-        }
-
-        .trust-text h4 {
-            font-size: 0.95rem;
-            margin-bottom: 3px;
-        }
-
-        .trust-text span {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        /* --- ریسپانسیو (موبایل) --- */
-        @media (max-width: 768px) {
-            header { padding: 15px 5%; }
-            nav { display: none; } /* منو ساده برای موبایل مخفی شده */
-
-            .hero {
-                flex-direction: column-reverse;
-                text-align: center;
-                justify-content: center;
-                padding-top: 100px;
-            }
-
-            h1 { font-size: 2.2rem; }
-
-            .cta-group { justify-content: center; }
-
-            .hero-visual { height: 300px; margin-bottom: 30px; }
-
-            .trust-bar {
-                grid-template-columns: 1fr 1fr; /* دو ستونه در موبایل */
-            }
-            .trust-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        }
-    </style>
+    <!-- لینک فایل استایل -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="grid-bg"></div>
+    <!-- پس زمینه مشبک -->
+    <div class="grid-bg"></div>
 
-<header>
-    <div class="logo">
-        <span>[3D]</span> PRINT PRO
-    </div>
-    <nav>
-        <ul>
-            <li><a href="#">خانه</a></li>
-            <li><a href="#">خدمات صنعتی</a></li>
-            <li><a href="#">نمونه کارها</a></li>
-            <li><a href="#">طراحی</a></li>
-        </ul>
-    </nav>
-    <button class="btn-header">ورود / پیگیری</button>
-</header>
-
-<section class="hero">
-
-    <div class="hero-text" id="heroText">
-        <span class="label">مهندسی دقیق و ساخت افزایشی</span>
-        <h1>تبدیل ایده مهندسی<br>به واقعیت فیزیکی</h1>
-        <p class="sub-hero">
-            خدمات تخصصی پرینت سه بعدی (FDM و SLA) با دقت صنعتی.
-            طراحی، نمونه‌سازی و تولید قطعات نهایی با بهترین متریال‌ها.
-            اگر نقشه ندارید، ما برایتان طراحی می‌کنیم.
-        </p>
-        <div class="cta-group">
-            <button class="btn-primary">استعلام قیمت آنی</button>
-            <button class="btn-secondary">مشاوره فنی</button>
-        </div>
-    </div>
-
-    <div class="hero-visual">
-        <div class="cube-container">
-            <div class="face front"></div>
-            <div class="face back"></div>
-            <div class="face right"></div>
-            <div class="face left"></div>
-            <div class="face top"></div>
-            <div class="face bottom"></div>
-        </div>
-    </div>
-
-</section>
-
-<div class="trust-bar">
-    <div class="trust-item">
-        <div class="icon-box">⚙️</div>
-        <div class="trust-text">
-            <h4>دقت میکرونی</h4>
-            <span>تضمین ابعاد دقیق</span>
-        </div>
-    </div>
-    <div class="trust-item">
-        <div class="icon-box">⏱️</div>
-        <div class="trust-text">
-            <h4>تحویل فوری</h4>
-            <span>پرینت شبانه‌روزی</span>
-        </div>
-    </div>
-    <div class="trust-item">
-        <div class="icon-box">🧱</div>
-        <div class="trust-text">
-            <h4>تنوع متریال</h4>
-            <span>رزین و پلاستیک‌های مهندسی</span>
-        </div>
-    </div>
-    <div class="trust-item">
-        <div class="icon-box">📐</div>
-        <div class="trust-text">
-            <h4>طراحی اختصاصی</h4>
-            <span>تبدیل ایده به فایل CAD</span>
-        </div>
-    </div>
-</div>
-
-<script>
-    // یک انیمیشن ساده برای لود شدن متن‌ها
-    document.addEventListener('DOMContentLoaded', () => {
-        const heroText = document.getElementById('heroText');
-        heroText.style.opacity = '0';
-        heroText.style.transform = 'translateY(20px)';
-        heroText.style.transition = 'opacity 1s ease, transform 1s ease';
-
-        setTimeout(() => {
-            heroText.style.opacity = '1';
-            heroText.style.transform = 'translateY(0)';
-        }, 200);
-    });
-</script>
-<section class="section-container" id="services">
-    <div class="section-header">
-        <h2 class="section-title">راهکارهای <span style="color: var(--accent-blue);">تولید</span></h2>
-        <p class="section-desc">انتخاب تکنولوژی مناسب بر اساس نیاز مهندسی شما</p>
-    </div>
-
-    <div class="services-grid">
-
-        <div class="tech-card">
-            <div class="card-corner top-right"></div>
-            <div class="card-corner bottom-left"></div>
-            <div class="card-icon">🏗️</div>
-            <h3>پرینت FDM صنعتی</h3>
-            <div class="spec-list">
-                <span><small>دقت:</small> 100 میکرون</span>
-                <span><small>متریال:</small> ABS, PLA, PETG</span>
-                <span><small>کاربرد:</small> قطعات بزرگ و مقاوم</span>
-            </div>
-            <p class="card-text">تولید قطعات مستحکم و کاربردی با کمترین هزینه. ایده‌آل برای نمونه‌سازی سریع و قطعات مکانیکی.</p>
-            <button class="btn-card">مشاهده جزئیات</button>
-        </div>
-
-        <div class="tech-card highlight-card">
-            <div class="card-corner top-right"></div>
-            <div class="card-corner bottom-left"></div>
-            <div class="card-icon">💎</div>
-            <h3>پرینت رزینی SLA/DLP</h3>
-            <div class="spec-list">
-                <span><small>دقت:</small> 25 میکرون</span>
-                <span><small>متریال:</small> رزین‌های مهندسی</span>
-                <span><small>کاربرد:</small> طلا و جواهر، دندانپزشکی</span>
-            </div>
-            <p class="card-text">بالاترین سطح جزئیات و سطح کاملاً صیقلی. مناسب برای قالب‌گیری دقیق و قطعات مینیاتوری.</p>
-            <button class="btn-card">مشاهده جزئیات</button>
-        </div>
-
-        <div class="tech-card">
-            <div class="card-corner top-right"></div>
-            <div class="card-corner bottom-left"></div>
-            <div class="card-icon">🖊️</div>
-            <h3>طراحی و مهندسی معکوس</h3>
-            <div class="spec-list">
-                <span><small>خروجی:</small> STL, STEP, OBJ</span>
-                <span><small>نرم‌افزار:</small> SolidWorks, Rhino</span>
-                <span><small>خدمات:</small> تبدیل ایده به نقشه</span>
-            </div>
-            <p class="card-text">تیم طراحی ما اسکچ‌های دستی یا قطعات شکسته شما را به مدل سه بعدی دقیق و قابل تولید تبدیل می‌کند.</p>
-            <button class="btn-card">درخواست طراحی</button>
-        </div>
-
-    </div>
-</section>
-
-<section class="section-container" id="process" style="background: rgba(255,255,255,0.02);">
-    <div class="section-header">
-        <h2 class="section-title">چرخه <span style="color: var(--accent-orange);">عملیات</span></h2>
-        <p class="section-desc">مسیر تبدیل فایل دیجیتال به قطعه فیزیکی</p>
-    </div>
-
-    <div class="process-wrapper">
-        <div class="process-line">
-            <div class="process-line-fill" id="lineFill"></div>
-        </div>
-
-        <div class="process-step">
-            <div class="step-circle">01</div>
-            <h4>آپلود فایل / ایده</h4>
-            <p>ارسال فایل STL یا توضیحات پروژه جهت بررسی اولیه.</p>
-        </div>
-
-        <div class="process-step">
-            <div class="step-circle">02</div>
-            <h4>بررسی فنی و قیمت</h4>
-            <p>انتخاب متریال بهینه و برآورد دقیق هزینه و زمان.</p>
-        </div>
-
-        <div class="process-step">
-            <div class="step-circle">03</div>
-            <h4>پرینت و پرداخت</h4>
-            <p>تولید با دستگاه‌های صنعتی و پولیش‌کاری نهایی.</p>
-        </div>
-
-        <div class="process-step">
-            <div class="step-circle">04</div>
-            <h4>کنترل کیفی و ارسال</h4>
-            <p>بررسی ابعادی با کولیس و ارسال سریع به مشتری.</p>
-        </div>
-    </div>
-</section>
-
-<style>
-    /* تنظیمات عمومی سکشن‌ها */
-    .section-container {
-        padding: 80px 10%;
-        position: relative;
-    }
-
-    .section-header {
-        text-align: center;
-        margin-bottom: 60px;
-    }
-
-    .section-title {
-        font-size: 2.5rem;
-        font-weight: 900;
-        color: var(--text-main);
-        margin-bottom: 10px;
-    }
-
-    .section-desc {
-        color: var(--text-muted);
-        font-size: 1.1rem;
-    }
-
-    /* --- استایل کارت‌های خدمات --- */
-    .services-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
-    }
-
-    .tech-card {
-        background: var(--bg-panel);
-        padding: 30px;
-        border: 1px solid rgba(255,255,255,0.05);
-        position: relative;
-        transition: 0.3s;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .tech-card:hover {
-        transform: translateY(-10px);
-        background: rgba(255,255,255,0.03);
-        border-color: rgba(255,255,255,0.1);
-    }
-
-    /* افکت گوشه‌های صنعتی */
-    .card-corner {
-        position: absolute;
-        width: 15px;
-        height: 15px;
-        border: 2px solid var(--text-muted);
-        transition: 0.3s;
-        opacity: 0.3;
-    }
-
-    .top-right { top: 0; right: 0; border-bottom: none; border-left: none; }
-    .bottom-left { bottom: 0; left: 0; border-top: none; border-right: none; }
-
-    .tech-card:hover .card-corner {
-        width: 30px;
-        height: 30px;
-        opacity: 1;
-        border-color: var(--accent-blue);
-    }
-
-    .highlight-card .card-corner { border-color: var(--accent-orange); }
-
-    .card-icon {
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-    }
-
-    .tech-card h3 {
-        margin-bottom: 15px;
-        font-size: 1.4rem;
-    }
-
-    .spec-list {
-        margin-bottom: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        font-size: 0.9rem;
-        color: var(--text-muted);
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        padding-bottom: 15px;
-    }
-
-    .spec-list small { color: var(--accent-blue); margin-left: 5px; }
-
-    .card-text {
-        font-size: 0.95rem;
-        color: #ccc;
-        margin-bottom: 25px;
-        flex-grow: 1;
-    }
-
-    .btn-card {
-        width: 100%;
-        padding: 10px;
-        background: transparent;
-        border: 1px dashed var(--text-muted);
-        color: var(--text-main);
-        cursor: pointer;
-        transition: 0.3s;
-        margin-top: auto;
-    }
-
-    .btn-card:hover {
-        border-style: solid;
-        border-color: var(--accent-blue);
-        color: var(--accent-blue);
-    }
-
-    /* --- استایل فرآیند (Timeline) --- */
-    .process-wrapper {
-        display: flex;
-        justify-content: space-between;
-        position: relative;
-        padding: 20px 0;
-    }
-
-    /* خط خاکستری پشت */
-    .process-line {
-        position: absolute;
-        top: 55px; /* تنظیم ارتفاع خط نسبت به دایره‌ها */
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: rgba(255,255,255,0.1);
-        z-index: 0;
-    }
-
-    /* خط رنگی که پر می‌شود */
-    .process-line-fill {
-        height: 100%;
-        width: 0%; /* با جاوااسکریپت پر می‌شود */
-        background: var(--accent-orange);
-        transition: width 1.5s ease-out;
-        box-shadow: 0 0 10px var(--accent-orange);
-    }
-
-    .process-step {
-        z-index: 1;
-        text-align: center;
-        width: 200px;
-        position: relative;
-    }
-
-    .step-circle {
-        width: 70px;
-        height: 70px;
-        background: var(--bg-dark);
-        border: 2px solid rgba(255,255,255,0.2);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 20px auto;
-        font-weight: 900;
-        font-size: 1.2rem;
-        color: var(--text-muted);
-        transition: 0.3s;
-    }
-
-    .process-step:hover .step-circle {
-        border-color: var(--accent-orange);
-        color: #fff;
-        box-shadow: 0 0 15px rgba(255, 107, 0, 0.3);
-        transform: scale(1.1);
-    }
-
-    .process-step h4 { margin-bottom: 10px; font-size: 1.1rem; }
-    .process-step p { font-size: 0.9rem; color: var(--text-muted); }
-
-    /* ریسپانسیو برای موبایل */
-    @media (max-width: 768px) {
-        .process-wrapper {
-            flex-direction: column;
-            gap: 40px;
-            padding-right: 20px; /* جا برای خط عمودی */
-        }
-
-        .process-line {
-            width: 2px;
-            height: 100%;
-            top: 0;
-            right: 55px; /* مکان خط در موبایل */
-            left: auto;
-        }
-
-        .process-line-fill {
-            width: 100%;
-            height: 0%; /* در موبایل ارتفاع پر می‌شود */
-            transition: height 1.5s ease-out;
-        }
-
-        .process-step {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            text-align: right;
-            gap: 20px;
-        }
-
-        .step-circle { margin: 0; }
-    }
-</style>
-
-<script>
-    // تشخیص اسکرول برای پر شدن خط فرآیند
-    const processSection = document.getElementById('process');
-    const lineFill = document.getElementById('lineFill');
-
-    window.addEventListener('scroll', () => {
-        const sectionPos = processSection.getBoundingClientRect().top;
-        const screenPos = window.innerHeight / 1.3;
-
-        if(sectionPos < screenPos) {
-            // اگر کاربر در موبایل بود ارتفاع، اگر دسکتاپ بود عرض پر شود
-            if(window.innerWidth > 768) {
-                lineFill.style.width = '100%';
-            } else {
-                lineFill.style.height = '100%';
-            }
-        }
-    });
-</script>
-<section class="section-container" id="portfolio">
-    <div class="section-header">
-        <h2 class="section-title">آرشیو <span style="color: var(--accent-blue);">پروژه‌ها</span></h2>
-        <p class="section-desc">نمونه‌های تولید شده با استانداردهای صنعتی</p>
-    </div>
-
-    <div class="gallery-grid">
-        <div class="project-card">
-            <div class="project-image" style="background: linear-gradient(45deg, #2b2d33, #1a1c20);">
-                <span class="placeholder-text"><img src="img/3.jpg"></span>
-                <div class="overlay-info">
-                    <h4>چرخ‌دنده صنعتی</h4>
-                    <span>متریال: ABS+</span>
-                </div>
-            </div>
-            <div class="project-meta">
-                <span class="status-dot"></span> تکمیل شده
-                <span class="project-id">ID: #8842</span>
+    <!-- هدر -->
+    <header>
+        <div class="header-left">
+            <div class="logo">
+                <span>[3D]</span> PRINT PRO
             </div>
         </div>
+        
+        <nav>
+            <ul>
+                <li><a href="#">خانه</a></li>
+                <li><a href="#services">خدمات</a></li>
+                <li><a href="#portfolio">نمونه کارها</a></li>
+                <li><a href="#contact">تماس</a></li>
+            </ul>
+        </nav>
 
-        <div class="project-card">
-            <div class="project-image" style="background: linear-gradient(45deg, #2b2d33, #1a1c20);">
-                <span class="placeholder-text"><img src="img/2.jpg"></span>
-                <div class="overlay-info">
-                    <h4>مدل معماری</h4>
-                    <span>متریال: PLA White</span>
-                </div>
-            </div>
-            <div class="project-meta">
-                <span class="status-dot"></span> تکمیل شده
-                <span class="project-id">ID: #9021</span>
-            </div>
+        <div class="header-actions">
+            <!-- دکمه تغییر تم -->
+            <button id="theme-toggle" class="theme-btn" aria-label="تغییر تم">
+                <span class="icon-sun">☀️</span>
+                <span class="icon-moon">🌙</span>
+            </button>
+            <button class="btn-header">ورود / پیگیری</button>
         </div>
+    </header>
 
-        <div class="project-card">
-            <div class="project-image" style="background: linear-gradient(45deg, #2b2d33, #1a1c20);">
-                <span class="placeholder-text"><img src="img/1.jpeg"></span>
-                <div class="overlay-info">
-                    <h4>مدل معماری</h4>
-                    <span>متریال: PLA White</span>
-                </div>
-            </div>
-            <div class="project-meta">
-                <span class="status-dot"></span> تکمیل شده
-                <span class="project-id">ID: #9022</span>
-            </div>
-        </div>
-
-        <div class="project-card">
-            <div class="project-image" style="background: linear-gradient(45deg, #2b2d33, #1a1c20);">
-                <span class="placeholder-text"><img src="img/4.jpeg"></span>
-                <div class="overlay-info">
-                    <h4>پروتز پزشکی</h4>
-                    <span>متریال: Resin Dental</span>
-                </div>
-            </div>
-            <div class="project-meta">
-                <span class="status-dot"></span> تکمیل شده
-                <span class="project-id">ID: #9930</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="section-container" id="contact" style="background: #0b0c0e;">
-    <div class="contact-wrapper">
-
-        <div class="contact-info">
-            <h2 style="font-size: 2rem; margin-bottom: 20px;">شروع <span style="color: var(--accent-orange);">پروژه</span></h2>
-            <p style="color: var(--text-muted); margin-bottom: 40px;">
-                برای استعلام قیمت دقیق، فایل خود را ارسال کنید. مهندسین ما در کمتر از ۳ ساعت با شما تماس می‌گیرند.
+    <!-- هیرو سکشن -->
+    <section class="hero">
+        <div class="hero-text" id="heroText">
+            <span class="label">مهندسی دقیق و ساخت افزایشی</span>
+            <h1>تبدیل ایده مهندسی<br>به واقعیت فیزیکی</h1>
+            <p class="sub-hero">
+                خدمات تخصصی پرینت سه بعدی (FDM و SLA) با دقت صنعتی. 
+                طراحی، نمونه‌سازی و تولید قطعات نهایی با بهترین متریال‌ها. 
+                اگر نقشه ندارید، ما برایتان طراحی می‌کنیم.
             </p>
-
-            <div class="info-item">
-                <span class="info-icon">📍</span>
-                <div>
-                    <strong>آدرس ما:</strong>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">تهران، مطهری:</p>
-                </div>
-            </div>
-
-            <div class="info-item">
-                <span class="info-icon">📞</span>
-                <div>
-                    <strong>تماس مستقیم:</strong>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">021-xxxxxxxx</p>
-                </div>
-            </div>
-
-            <div class="info-item">
-                <span class="info-icon">✉️</span>
-                <div>
-                    <strong>ایمیل ما:</strong>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">tech@3dprint.com</p>
-                </div>
+            <div class="cta-group">
+                <button class="btn-primary">استعلام قیمت آنی</button>
+                <button class="btn-secondary">مشاوره فنی</button>
             </div>
         </div>
 
-        <div class="form-panel">
-            <div class="panel-header">
-                <span>فرم ارسال اطلاعات</span>
-                <span class="blink">پرینت سه بعدی</span>
+        <div class="hero-visual">
+            <div class="cube-container">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face right"></div>
+                <div class="face left"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
             </div>
-            <form>
-                <div class="form-group">
-                    <label>نام و نام خانوادگی</label>
-                    <input type="text" placeholder="مثال: علی محمدی">
-                </div>
+        </div>
+    </section>
 
-                <div class="form-group">
-                    <label>شماره تماس (ضروری)</label>
-                    <input type="tel" placeholder="0912xxxxxxx">
-                </div>
-
-                <div class="form-group">
-                    <label>نوع خدمات</label>
-                    <select>
-                        <option>پرینت FDM (اقتصادی)</option>
-                        <option>پرینت رزینی (دقیق)</option>
-                        <option>طراحی سه بعدی</option>
-                        <option>مشاوره رایگان</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>آپلود فایل / توضیحات</label>
-                    <textarea rows="4" placeholder="توضیحات پروژه یا لینک فایل (Dropbox/Google Drive)..."></textarea>
-                </div>
-
-                <button type="button" class="btn-submit">
-                    ارسال درخواست
-                    <span class="btn-glare"></span>
-                </button>
-            </form>
+    <!-- نوار اعتماد -->
+    <div class="trust-bar">
+        <div class="trust-item">
+            <div class="icon-box">⚙️</div>
+            <div class="trust-text">
+                <h4>دقت میکرونی</h4>
+                <span>تضمین ابعاد دقیق</span>
+            </div>
+        </div>
+        <div class="trust-item">
+            <div class="icon-box">⏱️</div>
+            <div class="trust-text">
+                <h4>تحویل فوری</h4>
+                <span>پرینت شبانه‌روزی</span>
+            </div>
+        </div>
+        <div class="trust-item">
+            <div class="icon-box">🧱</div>
+            <div class="trust-text">
+                <h4>تنوع متریال</h4>
+                <span>رزین و پلاستیک‌های مهندسی</span>
+            </div>
+        </div>
+        <div class="trust-item">
+            <div class="icon-box">📐</div>
+            <div class="trust-text">
+                <h4>طراحی اختصاصی</h4>
+                <span>تبدیل ایده به فایل CAD</span>
+            </div>
         </div>
     </div>
-</section>
 
-<footer>
-    <div class="footer-content">
-        <div class="footer-logo">
-            [3D] PRINT PRO
+    <!-- بخش خدمات -->
+    <section class="section-container" id="services">
+        <div class="section-header">
+            <h2 class="section-title">راهکارهای <span class="text-highlight">تولید</span></h2>
+            <p class="section-desc">انتخاب تکنولوژی مناسب بر اساس نیاز مهندسی شما</p>
         </div>
-        <p style="font-size: 0.8rem; color: var(--text-muted);">
-            © 2024 تمامی حقوق برای تیم مهندسی پرینت محفوظ است.
-            <br> طراحی شده با رویکرد صنعتی.
-        </p>
-    </div>
-</footer>
 
-<style>
-    /* --- گالری (Portfolio) --- */
-    .gallery-grid {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 20px;
-    }
+        <div class="services-grid">
+            <div class="tech-card">
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-icon">🏗️</div>
+                <h3>پرینت FDM صنعتی</h3>
+                <div class="spec-list">
+                    <span><small>دقت:</small> 100 میکرون</span>
+                    <span><small>متریال:</small> ABS, PLA, PETG</span>
+                    <span><small>کاربرد:</small> قطعات بزرگ و مقاوم</span>
+                </div>
+                <p class="card-text">تولید قطعات مستحکم و کاربردی با کمترین هزینه. ایده‌آل برای نمونه‌سازی سریع.</p>
+                <button class="btn-card">مشاهده جزئیات</button>
+            </div>
 
-    .project-card {
-        background: var(--bg-panel);
-        border: 1px solid rgba(255,255,255,0.05);
-        padding: 10px;
-        transition: 0.3s;
-    }
+            <div class="tech-card highlight-card">
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-icon">💎</div>
+                <h3>پرینت رزینی SLA/DLP</h3>
+                <div class="spec-list">
+                    <span><small>دقت:</small> 25 میکرون</span>
+                    <span><small>متریال:</small> رزین‌های مهندسی</span>
+                    <span><small>کاربرد:</small> طلا و جواهر، دندانپزشکی</span>
+                </div>
+                <p class="card-text">بالاترین سطح جزئیات و سطح کاملاً صیقلی. مناسب برای قالب‌گیری دقیق.</p>
+                <button class="btn-card">مشاهده جزئیات</button>
+            </div>
 
-    .project-image {
-        height: 200px;
-        width: 200px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
-        margin-bottom: 10px;
-    }
+            <div class="tech-card">
+                <div class="card-corner top-right"></div>
+                <div class="card-corner bottom-left"></div>
+                <div class="card-icon">🖊️</div>
+                <h3>طراحی و مهندسی معکوس</h3>
+                <div class="spec-list">
+                    <span><small>خروجی:</small> STL, STEP, OBJ</span>
+                    <span><small>نرم‌افزار:</small> SolidWorks, Rhino</span>
+                    <span><small>خدمات:</small> تبدیل ایده به نقشه</span>
+                </div>
+                <p class="card-text">تیم طراحی ما اسکچ‌های دستی یا قطعات شکسته شما را به مدل سه بعدی دقیق تبدیل می‌کند.</p>
+                <button class="btn-card">درخواست طراحی</button>
+            </div>
+        </div>
+    </section>
 
-    .placeholder-text {
-        color: rgba(255,255,255,0.1);
-        font-weight: 900;
-        font-size: 1.5rem;
-        img{
-            width: 100%;
-        }
-    }
+    <!-- بخش فرآیند -->
+    <section class="section-container" id="process">
+        <div class="section-header">
+            <h2 class="section-title">چرخه <span style="color: var(--accent-orange);">عملیات</span></h2>
+            <p class="section-desc">مسیر تبدیل فایل دیجیتال به قطعه فیزیکی</p>
+        </div>
 
-    /* افکت هاور روی عکس */
-    .overlay-info {
-        position: absolute;
-        bottom: -50px;
-        left: 0;
-        width: 100%;
-        background: rgba(0, 210, 255, 0.9);
-        color: #000;
-        padding: 10px;
-        transition: 0.3s;
-        opacity: 0;
-    }
+        <div class="process-wrapper">
+            <div class="process-line">
+                <div class="process-line-fill" id="lineFill"></div>
+            </div>
 
-    .project-card:hover .overlay-info {
-        bottom: 0;
-        opacity: 1;
-    }
+            <div class="process-step">
+                <div class="step-circle">01</div>
+                <h4>آپلود فایل / ایده</h4>
+                <p>ارسال فایل STL یا توضیحات پروژه جهت بررسی اولیه.</p>
+            </div>
 
-    .project-meta {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        padding: 0 5px;
-    }
+            <div class="process-step">
+                <div class="step-circle">02</div>
+                <h4>بررسی فنی و قیمت</h4>
+                <p>انتخاب متریال بهینه و برآورد دقیق هزینه و زمان.</p>
+            </div>
 
-    .status-dot {
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        background: #00ff88;
-        border-radius: 50%;
-        margin-left: 5px;
-    }
+            <div class="process-step">
+                <div class="step-circle">03</div>
+                <h4>پرینت و پرداخت</h4>
+                <p>تولید با دستگاه‌های صنعتی و پولیش‌کاری نهایی.</p>
+            </div>
 
-    /* --- فرم تماس (Contact) --- */
-    .contact-wrapper {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 50px;
-        align-items: flex-start;
-    }
+            <div class="process-step">
+                <div class="step-circle">04</div>
+                <h4>کنترل کیفی و ارسال</h4>
+                <p>بررسی ابعادی با کولیس و ارسال سریع به مشتری.</p>
+            </div>
+        </div>
+    </section>
 
-    .contact-info {
-        flex: 1;
-        min-width: 300px;
-    }
+    <!-- بخش گالری -->
+    <section class="section-container" id="portfolio">
+        <div class="section-header">
+            <h2 class="section-title">آرشیو <span class="text-highlight">پروژه‌ها</span></h2>
+            <p class="section-desc">نمونه‌های تولید شده با استانداردهای صنعتی</p>
+        </div>
 
-    .info-item {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 25px;
-        align-items: center;
-    }
+        <div class="gallery-grid">
+            <!-- آیتم 1 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <!-- اگر عکس ندارید، متن جایگزین نمایش داده می شود -->
+                    <img src="img/3.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Industrial Gear">
+                    <span class="placeholder-text" style="display:none">IMG_01</span>
+                    <div class="overlay-info">
+                        <h4>چرخ‌دنده صنعتی</h4>
+                        <span>متریال: ABS+</span>
+                    </div>
+                </div>
+                <div class="project-meta">
+                    <span class="status-dot"></span> تکمیل شده
+                    <span class="project-id">ID: #8842</span>
+                </div>
+            </div>
 
-    .info-icon {
-        width: 40px;
-        height: 40px;
-        background: rgba(255,255,255,0.05);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        color: var(--accent-orange);
-    }
+            <!-- آیتم 2 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="img/2.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Architecture">
+                    <span class="placeholder-text" style="display:none">IMG_02</span>
+                    <div class="overlay-info">
+                        <h4>مدل معماری</h4>
+                        <span>متریال: PLA White</span>
+                    </div>
+                </div>
+                <div class="project-meta">
+                    <span class="status-dot"></span> تکمیل شده
+                    <span class="project-id">ID: #9021</span>
+                </div>
+            </div>
+            
+             <!-- آیتم 3 -->
+             <div class="project-card">
+                <div class="project-image">
+                    <img src="img/4.jpeg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Architecture">
+                    <span class="placeholder-text" style="display:none">IMG_03</span>
+                    <div class="overlay-info">
+                        <h4>پروتز پزشکی</h4>
+                        <span>متریال: Resin Dental</span>
+                    </div>
+                </div>
+                <div class="project-meta">
+                    <span class="status-dot"></span> تکمیل شده
+                    <span class="project-id">ID: #9930</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    .form-panel {
-        flex: 1;
-        min-width: 300px;
-        background: #151619;
-        border: 1px solid #333;
-        padding: 20px;
-        position: relative;
-    }
+    <!-- بخش تماس -->
+    <section class="section-container section-contact" id="contact">
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <h2 style="font-size: 2rem; margin-bottom: 20px;">شروع <span style="color: var(--accent-orange);">پروژه</span></h2>
+                <p style="color: var(--text-muted); margin-bottom: 40px;">
+                    برای استعلام قیمت دقیق، فایل خود را ارسال کنید. مهندسین ما در کمتر از ۳ ساعت با شما تماس می‌گیرند.
+                </p>
 
-    /* هدر پنل فرم (حالت کامپیوتری) */
-    .panel-header {
-        display: flex;
-        justify-content: space-between;
-        border-bottom: 1px solid #333;
-        padding-bottom: 10px;
-        margin-bottom: 20px;
-        font-family: monospace;
-        font-size: 0.8rem;
-        color: var(--text-muted);
-    }
+                <div class="info-item">
+                    <span class="info-icon">📍</span>
+                    <div>
+                        <strong>آدرس ما:</strong>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">تهران، خیابان ولیعصر، بالاتر از پارک ساعی</p>
+                    </div>
+                </div>
 
-    .blink { animation: blink 1s infinite; color: red; }
-    @keyframes blink { 50% { opacity: 0; } }
+                <div class="info-item">
+                    <span class="info-icon">📞</span>
+                    <div>
+                        <strong>تماس مستقیم:</strong>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">021-88888888</p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-icon">✉️</span>
+                    <div>
+                        <strong>ایمیل:</strong>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">info@3dpro.com</p>
+                    </div>
+                </div>
+            </div>
 
-    .form-group { margin-bottom: 15px; }
+            <div class="form-panel">
+                <div class="panel-header">
+                    <span>فرم ارسال اطلاعات</span>
+                    <span class="blink">● REC</span>
+                </div>
+                <form>
+                    <div class="form-group">
+                        <label>نام و نام خانوادگی</label>
+                        <input type="text" placeholder="مثال: علی محمدی">
+                    </div>
 
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-size: 0.9rem;
-        color: var(--text-muted);
-    }
+                    <div class="form-group">
+                        <label>شماره تماس (ضروری)</label>
+                        <input type="tel" placeholder="0912xxxxxxx">
+                    </div>
 
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        width: 100%;
-        background: #0f1012;
-        border: 1px solid #333;
-        color: #fff;
-        padding: 12px;
-        border-radius: 2px;
-        font-family: 'Vazirmatn';
-        transition: 0.3s;
-    }
+                    <div class="form-group">
+                        <label>نوع خدمات</label>
+                        <select>
+                            <option>پرینت FDM (اقتصادی)</option>
+                            <option>پرینت رزینی (دقیق)</option>
+                            <option>طراحی سه بعدی</option>
+                            <option>مشاوره رایگان</option>
+                        </select>
+                    </div>
 
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-        border-color: var(--accent-orange);
-        box-shadow: 0 0 10px rgba(255, 107, 0, 0.1);
-    }
+                    <div class="form-group">
+                        <label>آپلود فایل / توضیحات</label>
+                        <textarea rows="4" placeholder="توضیحات پروژه یا لینک فایل..."></textarea>
+                    </div>
 
-    .btn-submit {
-        width: 100%;
-        padding: 15px;
-        background: var(--accent-blue);
-        color: #000;
-        border: none;
-        font-weight: 900;
-        font-size: 1rem;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-        transition: 0.3s;
-    }
+                    <button type="button" class="btn-submit">
+                        ارسال درخواست
+                        <span class="btn-glare"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
 
-    .btn-submit:hover {
-        background: #fff;
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-    }
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                [3D] PRINT PRO
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">
+                © 2024 تمامی حقوق برای تیم مهندسی پرینت محفوظ است.
+                <br> طراحی شده با رویکرد صنعتی.
+            </p>
+        </div>
+    </footer>
 
-    /* --- فوتر --- */
-    footer {
-        border-top: 1px solid rgba(255,255,255,0.05);
-        padding: 40px 10%;
-        text-align: center;
-        background: #050505;
-    }
-
-    .footer-logo {
-        font-weight: 900;
-        font-size: 1.2rem;
-        margin-bottom: 10px;
-        letter-spacing: 2px;
-    }
-</style>
+    <!-- لینک فایل جاوااسکریپت -->
+    <script src="script.js"></script>
 </body>
 </html>
