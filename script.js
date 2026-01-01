@@ -10,15 +10,17 @@ document.addEventListener('DOMContentLoaded', () => {
         htmlElement.setAttribute('data-theme', savedTheme);
     }
 
-    themeToggleBtn.addEventListener('click', () => {
-        const currentTheme = htmlElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        htmlElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme); // ذخیره انتخاب کاربر
-    });
+    if(themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme); // ذخیره انتخاب کاربر
+        });
+    }
 
-    // --- 2. انیمیشن متن هیرو (Hero Text) ---
+    // --- 2. انیمیشن متن هیرو ---
     const heroText = document.getElementById('heroText');
     if(heroText) {
         heroText.style.opacity = '0';

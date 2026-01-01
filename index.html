@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>خدمات پرینت سه بعدی صنعتی</title>
-    <!-- لینک فونت -->
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;500;700;900&display=swap" rel="stylesheet">
-    <!-- لینک فایل استایل -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- پس زمینه مشبک -->
     <div class="grid-bg"></div>
 
     <!-- هدر -->
@@ -32,7 +29,6 @@
         </nav>
 
         <div class="header-actions">
-            <!-- دکمه تغییر تم -->
             <button id="theme-toggle" class="theme-btn" aria-label="تغییر تم">
                 <span class="icon-sun">☀️</span>
                 <span class="icon-moon">🌙</span>
@@ -41,7 +37,7 @@
         </div>
     </header>
 
-    <!-- هیرو سکشن -->
+    <!-- بخش اصلی (Hero) -->
     <section class="hero">
         <div class="hero-text" id="heroText">
             <span class="label">مهندسی دقیق و ساخت افزایشی</span>
@@ -57,14 +53,44 @@
             </div>
         </div>
 
+        <!-- ویژوال: پرینتر سه بعدی ایزومتریک -->
         <div class="hero-visual">
-            <div class="cube-container">
-                <div class="face front"></div>
-                <div class="face back"></div>
-                <div class="face right"></div>
-                <div class="face left"></div>
-                <div class="face top"></div>
-                <div class="face bottom"></div>
+            <div class="printer-scene">
+                <!-- ریل افقی -->
+                <div class="gantry-rail">
+                    <div class="rail-groove"></div>
+                </div>
+
+                <!-- مجموعه هد پرینتر -->
+                <div class="extruder-head">
+                    <div class="stepper-motor">
+                        <div class="motor-shaft"></div>
+                    </div>
+                    <div class="fan-shroud">
+                        <div class="fan-grill"></div>
+                        <div class="fan-blades"></div>
+                    </div>
+                    <div class="heatsink">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="heat-block">
+                        <div class="nozzle-tip"></div>
+                    </div>
+                </div>
+
+                <!-- صفحه ساخت و قطعه لایه لایه -->
+                <div class="build-plate-assembly">
+                    <div class="bed-grid"></div>
+                    
+                    <!-- قطعه: ۵ لایه مربع تخت روی هم -->
+                    <div class="model-stack">
+                        <div class="layer l1"></div>
+                        <div class="layer l2"></div>
+                        <div class="layer l3"></div>
+                        <div class="layer l4"></div>
+                        <div class="layer l5"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -170,19 +196,16 @@
                 <h4>آپلود فایل / ایده</h4>
                 <p>ارسال فایل STL یا توضیحات پروژه جهت بررسی اولیه.</p>
             </div>
-
             <div class="process-step">
                 <div class="step-circle">02</div>
                 <h4>بررسی فنی و قیمت</h4>
                 <p>انتخاب متریال بهینه و برآورد دقیق هزینه و زمان.</p>
             </div>
-
             <div class="process-step">
                 <div class="step-circle">03</div>
                 <h4>پرینت و پرداخت</h4>
                 <p>تولید با دستگاه‌های صنعتی و پولیش‌کاری نهایی.</p>
             </div>
-
             <div class="process-step">
                 <div class="step-circle">04</div>
                 <h4>کنترل کیفی و ارسال</h4>
@@ -191,7 +214,7 @@
         </div>
     </section>
 
-    <!-- بخش گالری -->
+    <!-- بخش نمونه کارها -->
     <section class="section-container" id="portfolio">
         <div class="section-header">
             <h2 class="section-title">آرشیو <span class="text-highlight">پروژه‌ها</span></h2>
@@ -199,10 +222,8 @@
         </div>
 
         <div class="gallery-grid">
-            <!-- آیتم 1 -->
             <div class="project-card">
                 <div class="project-image">
-                    <!-- اگر عکس ندارید، متن جایگزین نمایش داده می شود -->
                     <img src="img/3.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Industrial Gear">
                     <span class="placeholder-text" style="display:none">IMG_01</span>
                     <div class="overlay-info">
@@ -216,7 +237,6 @@
                 </div>
             </div>
 
-            <!-- آیتم 2 -->
             <div class="project-card">
                 <div class="project-image">
                     <img src="img/2.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Architecture">
@@ -231,11 +251,25 @@
                     <span class="project-id">ID: #9021</span>
                 </div>
             </div>
-            
-             <!-- آیتم 3 -->
-             <div class="project-card">
+ 
+            <div class="project-card">
                 <div class="project-image">
-                    <img src="img/4.jpeg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Architecture">
+                    <img src="img/1.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Architecture">
+                    <span class="placeholder-text" style="display:none">IMG_02</span>
+                    <div class="overlay-info">
+                        <h4>مدل معماری</h4>
+                        <span>متریال: PLA White</span>
+                    </div>
+                </div>
+                <div class="project-meta">
+                    <span class="status-dot"></span> تکمیل شده
+                    <span class="project-id">ID: #9021</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="img/4.jpeg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Medical">
                     <span class="placeholder-text" style="display:none">IMG_03</span>
                     <div class="overlay-info">
                         <h4>پروتز پزشکی</h4>
@@ -263,7 +297,7 @@
                     <span class="info-icon">📍</span>
                     <div>
                         <strong>آدرس ما:</strong>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">تهران، خیابان ولیعصر، بالاتر از پارک ساعی</p>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">تهران ، خیابان مطهری ، بعد از چهارراه سهروردی ، روبروی باشگاه بانک سپه ، نبش کوچه وزرایی  پلاک 32 ، ساختمان  برگزیده طبقه همکف</p>
                     </div>
                 </div>
 
@@ -272,6 +306,8 @@
                     <div>
                         <strong>تماس مستقیم:</strong>
                         <p style="font-size: 0.9rem; color: var(--text-muted);">021-88888888</p>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">0901690282</p>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">09960293221</p>
                     </div>
                 </div>
                 
@@ -324,6 +360,7 @@
         </div>
     </section>
 
+    <!-- فوتر -->
     <footer>
         <div class="footer-content">
             <div class="footer-logo">
@@ -336,7 +373,6 @@
         </div>
     </footer>
 
-    <!-- لینک فایل جاوااسکریپت -->
     <script src="script.js"></script>
 </body>
 </html>
